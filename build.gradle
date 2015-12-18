@@ -15,7 +15,14 @@ repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+//	maven {
+//	    url 'http://repo.ish.com.au/content/groups/public'
+//	}
+//	maven {
+//	    url 'http://repo.ish.com.au/content/groups/ish'
+//	}
 }
+
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
@@ -24,4 +31,8 @@ dependencies {
     compile 'junit:junit:4.+'
     compile 'com.codeborne:selenide:2.+'
     compile 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.+'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.9"
 }
