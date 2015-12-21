@@ -7,36 +7,34 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.codeborne.selenide.Selenide.*;
 
 public class T27058 {
 
-    static int currentAttempt = 0;
+    private static int currentAttempt = 0;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
 
-    private static String[] urls = new String[]{
+   private static String[] urls = new String[]{
             "https://www.sgscc.edu.au/courses/SchoolAge?debugQuery=true",
             "https://www.sgscc.edu.au/courses/Leisure/Fashion+Sewing?debugQuery=true",
             "https://www.sgscc.edu.au/courses?s=&tag=/SchoolAge&near=&km=&price=&time=&day=&debugQuery=true"
     };
 
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         while (true) {
             for (String url : urls) {
-                if (isFailed(url)) {
-                    return;
-                }
+                checkUrl(url);
                 Thread.sleep(60000);
             }
         }
     }
 
-    private static boolean isFailed(String url) throws FileNotFoundException, UnsupportedEncodingException {
+    private static boolean checkUrl(String url) throws IOException {
         currentAttempt++;
         open(url);
         SelenideElement courseList = $("#courses-list");
@@ -48,10 +46,11 @@ public class T27058 {
                 .findFirst();
 
         if (noResults.isPresent()) {
-            Selenide.screenshot("NoResult");
-            PrintWriter report = new PrintWriter("report.txt", "UTF-8");
+            Date date = new Date();
+            Selenide.screenshot("NoResult " + sdf.format(date));
+            PrintWriter report = new PrintWriter(new BufferedWriter(new FileWriter("report.txt", true)));
             report.println("Attempt count : " + currentAttempt);
-            report.println("Failed url : " + url);
+            report.println("Failed url : " + url + " . Time : " + sdf.format(date));
             report.close();
             return true;
         }
