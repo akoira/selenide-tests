@@ -9,6 +9,7 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
+apply plugin: 'application'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -22,7 +23,7 @@ repositories {
 //	    url 'http://repo.ish.com.au/content/groups/ish'
 //	}
 }
-
+mainClassName = "T27058"
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
@@ -31,8 +32,15 @@ dependencies {
     compile 'junit:junit:4.+'
     compile 'com.codeborne:selenide:2.+'
     compile 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.+'
+    /*  compile 'org.seleniumhq.selenium:selenium-server:2.45.0'*/
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = "2.9"
 }
+
+
+
+
+
+
