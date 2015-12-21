@@ -31,7 +31,7 @@ public class T27058 {
                 if (isFailed(url)) {
                     return;
                 }
-                Thread.sleep(1000);
+                Thread.sleep(60000);
             }
         }
     }
